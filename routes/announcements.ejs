@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>News Feed</title>
+  <link rel="icon" href="/logo/icon.png">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+<style>
+  #createAnnouncementModal button.btn-primary {
+    background-color: #007bff;
+    border: none;
+  }
+
+  #createAnnouncementModal button.btn-primary:hover {
+    background-color: #0069d9;
+  }
+
+  .navbar {
+    margin-bottom: 5;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+
+  .navbar-inverse .navbar-nav>li>a {
+    color: #fff;
+  }
+
+
+  .navbar-inverse .navbar-nav>li>a:hover,
+  .navbar-inverse .navbar-nav>li>a:focus {
+    color: red;
+  }
+
+  /* Style the modal */
+  .modal {
+    text-align: center;
+  }
+
+  /* Style the modal header */
+  .modal-header {
+    background-color: #f8f9fa;
+    border-bottom: none;
+  }
+
+  /* Style the modal body */
+  .modal-body {
+    padding: 20px;
+  }
+
+  /* Style the modal footer */
+  .modal-footer {
+    background-color: #f8f9fa;
+    border-top: none;
+  }
+
+  /* Style the modal title */
+  .modal-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  /* Style the form label */
+  .form-group label {
+    font-weight: bold;
+  }
+
+  /* Style the form input */
+  .form-control {
+    border-radius: 0;
+    border: 1px solid #ced4da;
+    box-shadow: none;
+  }
+
+  .btn-secondary{
+    background-color: #6c757d;
+    color: #fff;
+  }
+  .btn-primary{
+    background-color: #007bff;
+    color: #fff;
+  }
+
+  /*  style the delet btn*/
+  .btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+  }
+
+  .btn-danger , .btn-primary{
+    font-weight: bold;
+    height: 30px;
+    width: 120px;
+  }
+  /* Style for the footer */
+  footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 50px; /* Set the height of your footer */
+    background-color: #222; 
+    text-align: center;
+    color:#fff
+    }
+</style>
+
+<body>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">
+          <img src="/logo/logo2.png" alt="logo" style="height: 50px; margin-top: -15px;">
+        </a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li><a href="https://time-master.herokuapp.com/api/manager/manager-panel">Dashboard</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/manager/employee-management">Employee Management</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/manager/schedule-upload">Schedule</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/manager/time-records">Time Records</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/manager/time-off-requests">Time Requests</a></li>
+        <li class="active"><a href="https://time-master.herokuapp.com/api/manager/announcement">Announcement
+            Management</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="https://time-master.herokuapp.com/"><span class="glyphicon glyphicon-home"></span>Back to Home</a>
+        </li>
+        <li><a href="https://time-master.herokuapp.com/api/manager/logout"><span
+              class="glyphicon glyphicon-log-out"></span>
+            Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-md-offset-4">
+          <h2 class="text-center, heading">Announcement Management</h2>
+        </div>
+      </div>
+
+      <% if (messages && messages.error) { %>
+        <div class="alert alert-danger" role="alert">
+          <%= messages.error %>
+        </div>
+        <% } %>
+          <% if (messages && messages.success) { %>
+            <div class="alert alert-success" role="alert">
+              <%= messages.success %>
+            </div>
+            <% } %>
+
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">
+                Create
+              </button>
+
+              <hr>
+
+              <!-- Display existing news feed items -->
+              <% if (newsFeed.length> 0) { %>
+                <table class="table table-striped mt-5">
+                  <thead>
+                    <tr>
+                      <th>Title</th>
+                      <th>Description</th>
+                      <th>Date</th>
+		      <th>Issued By</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% newsFeed.forEach(function(item) { %>
+                      <tr>
+                        <td>
+                          <%= item.title %>
+                        </td>
+                        <td>
+                          <%= item.description %>
+                        </td>
+                        <td>
+                          <%= item.date.toLocaleDateString() %>
+                        </td>
+                        <td>
+                          <%= item.issuedBy %>
+                        </td>
+                        <td>
+                          <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
+                            data-target="#editModal-<%= item._id %>">Edit</button>
+                          <form action="/api/manager/newsfeed/delete/<%= item._id %>" method="POST"
+                            style="display: inline;">
+                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                          </form>
+                        </td>
+                      </tr>
+                      <% }) %>
+                  </tbody>
+                </table>
+                <% } else { %>
+                  <p>No news feed items found.</p>
+                  <% } %>
+    </div>
+    <footer>
+      <p>&copy; Time Master Application. All rights reserved.</p>
+    </footer>
+
+
+
+    <!-- Edit Modals -->
+    <% newsFeed.forEach(function(item) { %>
+      <div class="modal fade" id="editModal-<%= item._id %>" tabindex="-1" role="dialog"
+        aria-labelledby="editModalLabel-<%= item._id %>" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editModalLabel-<%= item._id %>">Edit News Feed Item</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form action="/api/manager/newsfeed/edit/<%= item._id %>" method="POST">
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="title">Title</label>
+                  <input type="text" class="form-control" name="title" value="<%= item.title %>" required>
+                </div>
+                <div class="form-group">
+                  <label for="description">Description</label>
+                  <textarea class="form-control" name="description" rows="3" required><%= item.description %></textarea>
+                </div>
+            </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+        <!-- Create Modal -->
+        <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Create News Feed Item</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form action="/api/manager/newsfeed/create" method="POST">
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" name="title" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" name="description" required></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="issuedBy">issuedBy</label>
+                    <textarea class="form-control" name="issuedBy" required></textarea>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+
+
+
+          <script>
+            // Get references to the modal elements
+            var createModal = document.getElementById('createModal');
+            var editModals = document.querySelectorAll('[id^="editModal-"]');
+
+
+            // Get references to the buttons that open each modal
+            var createButton = document.querySelector('[data-target="#createModal"]');
+            var editButtons = document.querySelectorAll('[data-target^="#editModal-"]');
+
+            // Add event listeners to the buttons that open each modal
+            createButton.addEventListener('click', function () {
+              createModal.style.display = 'block';
+            });
+
+            editButtons.forEach(function (button) {
+              button.addEventListener('click', function () {
+                var targetModal = document.getElementById(button.dataset.target.slice(1));
+                targetModal.style.display = 'block';
+              });
+            });
+
+
+
+            // Get references to the close buttons and the modal containers
+            var closeButtons = document.querySelectorAll('.close');
+            var modalContainers = document.querySelectorAll('.modal');
+
+            // Add event listeners to the close buttons and modal containers
+            closeButtons.forEach(function (button) {
+              button.addEventListener('click', function () {
+                var targetModal = button.closest('.modal');
+                targetModal.style.display = 'none';
+              });
+            });
+
+            modalContainers.forEach(function (container) {
+              container.addEventListener('click', function (event) {
+                if (event.target === container) {
+                  container.style.display = 'none';
+                }
+              });
+            });
+
+            // Add event listener to the document to close any open modals when the Esc key is pressed
+            document.addEventListener('keydown', function (event) {
+              if (event.key === 'Escape') {
+                modalContainers.forEach(function (container) {
+                  container.style.display = 'none';
+                });
+              }
+            });
+
+          </script>
+  </body>
+
+</html>

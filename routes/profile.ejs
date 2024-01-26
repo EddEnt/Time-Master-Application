@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Employee Profile</title>
+  <meta charset="utf-8" />
+  <link rel="icon" href="/logo/icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+</head>
+<style>
+  body {
+    background-color: #f8f8f8;
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
+
+  .heading{
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    color: #080808;
+  }
+  
+  /* Style the page title */
+  .container h2 {
+    font-size: 30px;
+    margin: 20px 0;
+    text-align: center;
+    font-weight: bold;
+    color: #080808;
+  }
+
+
+  table {
+    margin: auto;
+    width: 50%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    font-size: 18px;
+    text-align: center;
+  }
+
+  th, td {
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 10px 20px;
+    background-color: #f2f2f2; /* set grey background */
+    color: #333; /* set font color */
+  }
+
+  th {
+  background-color: #333;
+  color: #fff;
+  }
+
+
+tbody tr:hover {
+  background-color: #ccc; /* set hover background color */
+  }
+
+  .navbar {
+    margin-bottom: 5;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+
+  .navbar-inverse .navbar-nav>li>a {
+    color: #fff;
+  }
+
+  .navbar-inverse .navbar-nav>li>a:hover,
+  .navbar-inverse .navbar-nav>li>a:focus {
+    color: red;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    box-shadow: 1px 1px 2px #ccc;
+    border: none;
+  }
+
+  footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 50px; /* Set the height of your footer */
+    background-color: #222; 
+    text-align: center;
+    color:#fff
+    }
+  
+</style>
+
+<body>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="page">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">
+          <img src="/logo/logo2.png" alt="logo" style="height: 50px; margin-top: -15px;">
+        </a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li><a href="https://time-master.herokuapp.com/api/emp/employee-panel">Dashboard</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/emp/clock">Clock</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/emp/hours-worked">Time Records</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/emp/time-off-requests">Time Requests</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/emp/view-schedules">View Schedule</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="active"><a href="https://time-master.herokuapp.com/api/emp/profile"><span
+              class="glyphicon glyphicon-user"></span> Profile</a></li>
+              <li><a href="https://time-master.herokuapp.com/"><span class="glyphicon glyphicon-home"></span>Back to Home</a>
+              </li>
+        <li><a href="https://time-master.herokuapp.com/api/emp/logout"><span class="glyphicon glyphicon-log-out"></span>
+            Logout</a></li>
+      </ul>
+      </div>
+    </div>
+  </nav>
+  
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6?">
+        <h2 class="heading">Profile</h2>
+        <table class="table table-bordered table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <td><strong>Employee Code:</strong></td>
+              <td>
+                <%= employee.employeeCode %>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>First Name:</strong></td>
+              <td>
+                <%= employee.firstName %>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Last Name:</strong></td>
+              <td>
+                <%= employee.lastName %>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Hourly Rate:</strong></td>
+              <td>
+                <%= employee.hourlyRate %>
+              </td>
+            </tr>
+          </thead>
+        </table>
+        <a href="https://time-master.herokuapp.com/api/emp/employee/password" class="btn btn-primary">Update
+          Password</a>
+      </div>
+    </div>
+  </div>
+  <%- include('footer') %>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>

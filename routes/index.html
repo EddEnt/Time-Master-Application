@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Home</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/logo/icon.png">
+  <link rel="stylesheet" href="../public/style.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <style>
+
+  .card h3 {
+    color: #201E20;
+    text-align: center;
+    text-weight: bold;
+  }
+   
+   .card h4{
+      color: #201E20;
+    }
+
+  .card p {
+    color: #FBF8BE;
+  }
+    
+  .card .date {
+    color: #201E20;
+  }
+
+    /* Style for the header */
+  header {
+    background-color: #fff;
+    color: #BBD686;
+    padding: 20px;
+    text-align: center;
+    }
+
+    .navbar {
+    margin-bottom: 5;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+
+  .navbar-inverse .navbar-nav>li>a {
+    color: #fff;
+  }
+
+  .navbar-inverse .navbar-nav>li>a:hover,
+  .navbar-inverse .navbar-nav>li>a:focus {
+    color: red;
+  }
+
+    /* Style for the announcement cards */
+    .card {
+      background-color: #234E70;
+      border-radius: 5px;
+      box-shadow: 0px 3px 3px #ccc;
+      margin: 20px auto;
+      padding: 20px;
+      width: 90%;
+      max-width: 1000px;
+      overflow: hidden;
+    }
+
+    .card h3 {
+      font-size: 24px;
+      margin-top: 0;
+    }
+    
+    .card h4{
+      font-size : 16px
+    }
+
+    .card p {
+      font-size: 16px;
+      margin-bottom: 10px;
+      word-wrap: break-word;
+      max-width: 85%;
+    }
+
+    .card .date {
+      font-size: 12px;
+      font-style: italic;
+      font-weight: bold;
+      color: #888;
+      margin-top: 0;
+    }
+
+    /* Style for the footer */
+    footer {
+      background-color: #222;
+      color: #fff;
+      padding: 10px;
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      text-align: center;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="https://time-master.herokuapp.com/">
+          <img src="/logo/logo2.png" alt="logo" style="height: 50px; margin-top: -15px;">
+        </a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="https://time-master.herokuapp.com/">Home</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/manager/login">Manager Login</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/emp/login">Employee Login</a></li>
+      </ul>
+    </div>
+  </nav>
+  <br>
+
+  <div class="container" style="margin-top:50px">
+    <div id="announcement-cards"></div>
+  </div>
+
+  <script>
+    async function fetchAnnouncements() {
+      const response = await fetch('https://time-master.herokuapp.com/api/manager/news');
+      const data = await response.json();
+      return data;
+    }
+
+    function createAnnouncementCard(announcement) {
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const container = document.createElement('div');
+      container.className = 'container';
+
+      const title = document.createElement('h3');
+      title.innerText = announcement.title;
+
+      const description = document.createElement('p');
+      description.innerText = announcement.description;
+
+      const issuedBy = document.createElement('h4');
+      issuedBy.innerText = announcement.issuedBy;
+      
+      const date = document.createElement('p');
+      date.className = 'date';
+      
+      const momentDate = moment(announcement.date);
+      if (momentDate.isValid()) {
+        date.innerText = momentDate.format('MMMM Do YYYY, h:mm A');
+      } else {
+        date.innerText = 'Invalid Date';
+      }
+
+      container.appendChild(title);
+      container.appendChild(description);
+      container.appendChild(date);
+      container.appendChild(issuedBy);
+      card.appendChild(container);
+      return card;
+    }
+
+
+    async function displayAnnouncements() {
+      const announcements = await fetchAnnouncements();
+      const announcementCards = document.getElementById('announcement-cards');
+      announcements.forEach(announcement => {
+        const card = createAnnouncementCard(announcement);
+        announcementCards.appendChild(card);
+      });
+    }
+
+    displayAnnouncements();
+  </script>
+  <footer>
+    <p>&copy; Time Master Application. All rights reserved.</p>
+  </footer>
+</body>
+
+</html>

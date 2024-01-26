@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Time-Off Requests</title>
+  <link rel="icon" href="/logo/icon.png">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<style>
+
+.navbar {
+    margin-bottom: 5;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+
+  .navbar-inverse .navbar-nav>li>a {
+    color: #fff;
+  }
+
+  .navbar-inverse .navbar-nav>li>a:hover,
+  .navbar-inverse .navbar-nav>li>a:focus {
+    color: red;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    box-shadow: 1px 1px 2px #ccc;
+    border: none;
+  }
+
+  footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 50px; /* Set the height of your footer */
+    background-color: #222; 
+    text-align: center;
+    color:#fff
+    }
+</style>
+
+<body>
+
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">
+          <img src="/logo/logo2.png" alt="logo" style="height: 50px; margin-top: -15px;">
+        </a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li><a href="https://time-master.herokuapp.com/api/manager/manager-panel">Dashboard</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/manager/employee-management">Employee Management</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/manager/schedule-upload">Schedule</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/manager/time-records">Time Records</a></li>
+        <li class="active"><a href="https://time-master.herokuapp.com/api/manager/time-off-requests">Time Requests</a>
+        </li>
+        <li><a href="https://time-master.herokuapp.com/api/manager/announcement">Announcement Management</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="https://time-master.herokuapp.com/"><span class="glyphicon glyphicon-home"></span>Back to Home</a>
+        </li>
+        <li><a href="https://time-master.herokuapp.com/api/manager/logout"><span
+              class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <!-- Header -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <h2 class="text-center">Time-Off Requests</h2>
+      </div>
+    </div>
+    <% if (messages && messages.error) { %>
+      <div class="alert alert-danger" role="alert">
+        <%= messages.error %>
+      </div>
+      <% } %>
+        <% if (messages && messages.success) { %>
+          <div class="alert alert-success" role="alert">
+            <%= messages.success %>
+          </div>
+          <% } %>
+
+    <hr>
+
+    <!-- List of Requests -->
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Employee</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Reason</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% requests.forEach((request, index)=> { %>
+              <tr>
+                <td>
+                  <%= employees[index].firstName %>
+                    <%= employees[index].lastName %>
+                </td>
+                <td>
+                 <%= request.startDate.toDateString() %> 
+                </td>
+                <td>
+                  <%= request.endDate.toDateString() %>
+                </td>
+                <td>
+                  <%= request.reason %>
+                </td>
+                <td>
+                  <!-- Update form -->
+                  <form action="/api/manager/time-off-requests/<%= request._id %>" method="POST">
+                    <input type="hidden" name="_method" value="PUT">
+                    <div class="form-group">
+                      <select class="form-control" name="status" style="width: 150px;">
+                        <option value="pending" <%=request.status==='pending' ? 'selected' : '' %>>Pending</option>
+                        <option value="approved" <%=request.status==='approved' ? 'selected' : '' %>>Approved</option>
+                        <option value="denied" <%=request.status==='denied' ? 'selected' : '' %>>Denied</option>
+                      </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                  </form>
+                </td>
+                <td>
+                  <form action="/api/manager/time-off-request/<%= request._id %>" method="POST">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+
+                  </form>
+                </td>
+              </tr>
+              <% }); %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+
+    <!-- Footer -->
+    <!--     <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <a href="/" class="btn btn-default">Back to Home</a>
+      </div>
+    </div> -->
+  </div>
+
+  <%- include('footer') %>
+
+</body>
+
+</html>

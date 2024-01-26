@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>View Schedule</title>
+	<link rel="icon" href="/logo/icon.png">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<style>
+	/* Style the table */
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		margin-bottom: 20px;
+
+	}
+
+	th,
+	td {
+		text-align: left;
+		padding: 10px;
+		border: 1px solid #ddd;
+	}
+
+	th {
+		background-color: #080808;
+		color: #fff;
+	}
+
+	tbody tr:hover {
+		background-color: #f5f5f5;
+	}
+
+	/* Style the download button */
+	.btn-download {
+		background-color: #4CAF50;
+		color: white;
+		border-radius: 4px;
+		border: none;
+		cursor: pointer;
+		padding: 10px 16px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		font-size: 16px;
+		margin: 4px 2px;
+		transition-duration: 0.4s;
+		margin-right: 20px;
+	}
+
+	.btn-download:hover {
+		background-color: #3e8e41;
+		color: white;
+	}
+
+	/* Style the back button */
+	.btn-back {
+		background-color: #555;
+		color: white;
+		border-radius: 4px;
+		border: none;
+		cursor: pointer;
+		padding: 10px 16px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		font-size: 16px;
+		margin: 4px 2px;
+		transition-duration: 0.4s;
+	}
+
+	.btn-back:hover {
+		background-color: #333;
+		color: white;
+	}
+
+	.navbar {
+    margin-bottom: 5;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+
+  .navbar-inverse .navbar-nav>li>a {
+    color: #fff;
+  }
+
+	.navbar-inverse .navbar-nav>li>a:hover,
+	.navbar-inverse .navbar-nav>li>a:focus {
+		color: red;
+	}
+
+	footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 50px; /* Set the height of your footer */
+    background-color: #222; 
+    text-align: center;
+	color:#fff
+    }
+</style>
+
+<body>
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">
+					<img src="/logo/logo2.png" alt="logo" style="height: 50px; margin-top: -15px;">
+				</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li><a href="https://time-master.herokuapp.com/api/emp/employee-panel">Dashboard</a></li>
+				<li><a href="https://time-master.herokuapp.com/api/emp/clock">Clock</a></li>
+				<li><a href="https://time-master.herokuapp.com/api/emp/hours-worked">Time Records</a></li>
+				<li><a href="https://time-master.herokuapp.com/api/emp/time-off-requests">Time Requests</a></li>
+				<li class="active"><a href="https://time-master.herokuapp.com/api/emp/view-schedules">View Schedule</a>
+				</li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="https://time-master.herokuapp.com/api/emp/profile"><span
+							class="glyphicon glyphicon-user"></span> Profile</a></li>
+				<li><a href="https://time-master.herokuapp.com/"><span class="glyphicon glyphicon-home"></span>Back to
+						Home</a>
+				</li>
+				<li><a href="https://time-master.herokuapp.com/api/emp/logout"><span
+							class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+			</ul>
+		</div>
+	</nav>
+
+
+	<!-- Header -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<h1 class="text-center">View Schedule</h1>
+			</div>
+		</div>
+
+		<hr>
+
+		<!-- Schedule Table -->
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Title</th>
+							<th>Date Uploaded</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% schedules.forEach(function(schedule) { %>
+							<tr>
+								<td>
+									<%= schedule.name %>
+								</td>
+								<td>
+									<%= schedule.uploadedAt %>
+								</td>
+								<td><a href="/api/emp/schedule/<%= schedule._id %>">Download</a></td>
+							</tr>
+							<% }); %>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<%- include('footer') %>
+
+</body>
+
+</html>

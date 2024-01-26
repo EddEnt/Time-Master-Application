@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Employee Management</title>
+  <meta charset="utf-8" />
+  <link rel="icon" href="/logo/icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<style>
+
+.navbar {
+    margin-bottom: 5;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+
+  .navbar-inverse .navbar-nav>li>a {
+    color: #fff;
+  }
+
+  .navbar-inverse .navbar-nav>li>a:hover,
+  .navbar-inverse .navbar-nav>li>a:focus {
+    color: red;
+  }
+
+  /* Style the primary button */
+  .btn-primary {
+      background-color: #007bff;
+      color: #fff;
+  
+    }
+
+    /* Style the table */
+  .table {
+      background-color: #fff;
+      padding: 20px;
+      margin-bottom: 75px;
+    }
+
+    .table th,
+    .table td {
+      border: none;
+    }
+  
+  tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+  }
+  tbody tr:nth-child(even) {
+    background-color: #fff;
+  }
+
+    /* Style the modal */
+    .modal-header {
+      background-color: #fff;
+      border-bottom: none;
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    #createEmployeeModal button.btn-primary {
+      background-color: #007bff;
+      border: none;
+      }
+
+    #createEmployeeModal button.btn-primary:hover {
+        background-color: #5a6268;
+      }
+
+      footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      height: 50px; /* Set the height of your footer */
+      background-color: #222; 
+      text-align: center;
+      color:#fff
+    }
+  
+</style>
+
+<body>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">
+          <img src="/logo/logo2.png" alt="logo" style="height: 50px; margin-top: -15px;">
+        </a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li><a href="https://time-master.herokuapp.com/api/manager/manager-panel">Dashboard</a></li>
+        <li class="active"><a href="https://time-master.herokuapp.com/api/manager/employee-management">Employee
+            Management</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/manager/schedule-upload">Schedule</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/manager/time-records">Time Records</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/manager/time-off-requests">Time Requests</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/manager/announcement">Announcement Management</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="https://time-master.herokuapp.com/"><span class="glyphicon glyphicon-home"></span>Back to Home</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/manager/logout"><span
+              class="glyphicon glyphicon-log-out"></span>
+            Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+ 
+  <div class="container my-5">
+    <h2 style="text-align: center;">Employee Management</h2>
+
+    <div id="alert-message"></div>
+    <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#createEmployeeModal">Create Employee</a>
+    <table class="table table-striped mt-4">
+      <thead>
+        <tr>
+          <th>Employee Code</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Hourly Rate</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="employee-table-body">
+        <!-- Table rows will be added dynamically here -->
+      </tbody>
+    </table>
+  </div>
+  <footer>
+    <p>&copy; Time Master Application. All rights reserved.</p>
+  </footer>
+  <!-- Edit Employee Modal -->
+  <div class="modal fade" id="editEmployeeModal" tabindex="-1" role="dialog" aria-labelledby="editEmployeeModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="editEmployeeModalLabel">
+            Edit Employee
+          </h4>
+        </div>
+        <div class="modal-body">
+          <form id="editEmployeeForm">
+            <div class="form-group">
+              <label for="firstName">First Name</label>
+              <input type="text" class="form-control" id="firstName" name="firstName" required />
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last Name</label>
+              <input type="text" class="form-control" id="lastName" name="lastName" required />
+            </div>
+            <div class="form-group">
+              <label for="hourlyRate">Hourly Rate</label>
+              <input type="number" class="form-control" id="hourlyRate" name="hourlyRate" min="0" step=".01" required />
+            </div>
+            <div class="form-group">
+              <label for="employeeCode">Employee Code</label>
+              <input type="text" class="form-control" id="employeeCode" name="employeeCode" required />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary" id="saveEditButton">
+            Save changes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Create Employee Modal -->
+  <div class="modal fade" id="createEmployeeModal" tabindex="-1" role="dialog"
+    aria-labelledby="createEmployeeModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class = "container-fluid">
+            <h4 class="modal-title" id="editEmployeeModalLabel">
+            Create Employee
+          </h4>
+        </div>
+        <div class="modal-body">
+          <form id="createEmployeeForm">
+            <div class="form-group">
+              <label for="firstName">First Name</label>
+              <input type="text" class="form-control" id="firstName" name="firstName" required />
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last Name</label>
+              <input type="text" class="form-control" id="lastName" name="lastName" required />
+            </div>
+            <div class="form-group">
+              <label for="hourlyRate">Hourly Rate</label>
+              <input type="number" class="form-control" id="hourlyRate" name="hourlyRate" min="0" step=".01" required />
+            </div>
+            <div class="form-group">
+              <label for="employeeCode">Employee Code</label>
+              <input type="text" class="form-control" id="employeeCode" name="employeeCode" required />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" name="password" required />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary" id="saveCreateButton">
+            Create Employee
+          </button>
+        </div>
+      </div>
+    </div>
+    <script>
+   const createButton = document.getElementById("saveCreateButton");
+      createButton.addEventListener("click", createEmployee);
+      function createEmployee() {
+        // Get the form data
+        const form = document.getElementById("createEmployeeForm");
+        const formData = new FormData(form);
+
+        // Send a POST request to the server to create the employee
+        fetch("https://time-master.herokuapp.com/api/manager/employee", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(Object.fromEntries(formData)),
+        })
+          .then((response) => {
+            if (response.ok) {
+              alert("Employee created successfully");
+              location.reload(); // Refresh the page to show the new employee in the table
+            } else {
+              throw new Error("An error occurred while creating the employee");
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+            alert("An error occurred while creating the employee");
+          });
+      }
+      function editEmployee() {
+        // Get the form data
+        const form = document.getElementById("editEmployeeForm");
+        const formData = new FormData(form);
+
+        // Extract the employee code from the form
+        const employeeCode = formData.get("employeeCode");
+
+        // Send a PUT request to the server to update the employee
+        fetch(`https://time-master.herokuapp.com/api/manager/employees/${employeeCode}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(Object.fromEntries(formData)),
+        })
+          .then((response) => {
+            if (response.ok) {
+              alert("Employee updated successfully");
+              location.reload(); // Refresh the page to show the updated employee in the table
+            } else {
+              throw new Error("An error occurred while updating the employee");
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+            alert("An error occurred while updating the employee");
+          });
+      }
+
+      const saveEditButton = document.getElementById("saveEditButton");
+      saveEditButton.addEventListener("click", editEmployee);
+
+      function attachEditButtonListeners() {
+        const editButtons = document.querySelectorAll(".btn-primary");
+        editButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            // Find the table row for this employee
+            const row = button.closest("tr");
+
+            // Extract the employee data from the row
+            const employeeCode = row.cells[0].textContent;
+            const firstName = row.cells[1].textContent;
+            const lastName = row.cells[2].textContent;
+            const hourlyRate = row.cells[3].textContent.slice(1); // remove the dollar sign
+            const password = ""; // leave the password field blank for security reasons
+
+            // Fill in the form fields in the modal
+            const form = document.getElementById("editEmployeeForm");
+            form.elements["employeeCode"].value = employeeCode;
+            form.elements["firstName"].value = firstName;
+            form.elements["lastName"].value = lastName;
+            form.elements["hourlyRate"].value = hourlyRate;
+            form.elements["password"].value = password;
+          });
+        });
+      }
+      function deleteEmployee(employeeCode) {
+        if (confirm("Are you sure you want to delete this employee?")) {
+          fetch(`https://time-master.herokuapp.com/api/manager/employees/${employeeCode}`, {
+            method: "DELETE",
+          })
+            .then((response) => {
+              if (response.ok) {
+                 alert("Employee deleted successfully");
+
+                location.reload(); // Refresh the page to remove the deleted employee from the table
+              } else {
+                throw new Error(
+                  "An error occurred while deleting the employee"
+                );
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+              alert("An error occurred while deleting the employee");
+            });
+        }
+      }
+
+      fetch("https://time-master.herokuapp.com/api/manager/employees")
+        .then((response) => response.json())
+        .then((data) => {
+          const employeeTableBody = document.getElementById(
+            "employee-table-body"
+          );
+
+          // Add a row to the table for each employee
+          data.forEach((employee) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+        <td>${employee.employeeCode}</td>
+        <td>${employee.firstName}</td>
+        <td>${employee.lastName}</td>
+        <td>$${employee.hourlyRate.toFixed(2)}</td>
+        <td>
+          <button class="btn btn-primary" data-toggle="modal" data-target="#editEmployeeModal">Edit</button>
+          <button class="btn btn-danger" data-toggle="modal" data-target="#deleteEmployeeModal" onclick="deleteEmployee(${employee.employeeCode
+              })">Delete</button>
+        </td>
+      `;
+            employeeTableBody.appendChild(row);
+          });
+          attachEditButtonListeners();
+
+        })
+        .catch((error) => {
+          console.error(error);
+          alert("An error occurred while loading employee data");
+        });
+    </script>
+
+
+</body>
+
+</html>

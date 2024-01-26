@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Time-Off Requests</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style>
+		body {
+			padding-top: 70px;
+    		background-color: #f8f8f8;	
+		}
+		
+		.navbar-inverse .navbar-nav > li > a {
+			color: #fff;
+		}
+
+		.navbar-inverse .navbar-nav > li > a:hover,
+		.navbar-inverse .navbar-nav > li > a:focus {
+			color: #ff0f4a;
+		}
+
+		.custom_btn {
+			background-color: #337ab7;
+			border: none;
+		}
+
+		.custom_btn:hover,
+		.custom_btn:focus {
+			background-color: #286090;
+			border: none;
+		}
+
+		.list-group-item-heading {
+			font-size: 24px;
+			margin-top: 10px;
+			margin-bottom: 5px;
+		}
+
+		.list-group-item-text {
+			font-size: 16px;
+			line-height: 1.5;
+		}
+
+		.list-group-item-text br {
+			display: none;
+		}
+
+		.list-group-item:hover .list-group-item-text br {
+			display: inline-block;
+		}
+
+		.list-group-item:hover .list-group-item-text {
+			line-height: 1.2;
+		}
+
+		.list-group-item .btn-danger {
+			float: right;
+		}
+
+		.list-group-item-heading {
+  			color: blue; /* Change color of request reason */
+		}
+
+		.list-group-item-text {
+  			color: black; /* Change color of request details */
+		}
+
+		.btn-danger {
+			background-color: red; /* Change color of Delete button */
+			border-color: red;
+			/* margin-top: 50px 0 ;
+			margin-bottom: 50px 0; */
+		
+		}
+		.my-div {
+  			background-color: #007ef3;
+		}
+
+		.btn-default{
+			background-color: #007ef3;
+			border-color: #007ef3;
+			/* margin-top: 50px 0;
+			margin-bottom: 50px 0; */
+		}
+
+		.navbar-inverse .navbar-nav>li>a:hover, 
+	.navbar-inverse .navbar-nav>li>a:focus {
+  		color: red;
+	}
+
+	.btn-container {
+ 	 	display: flex;
+  		justify-content: space-between;
+  	align-items: center;
+}
+
+
+</style>
+</head>
+
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">
+<<<<<<< HEAD
+					<img src="/public/logo/logo2.png" alt="logo" style="height: 50px; margin-top: -15px;">
+				</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li><a href="http://localhost:3030/api/emp/employee-panel">Dashboard</a></li>
+				<li><a href="http://localhost:3030/api/emp/clock">Clock</a></li>
+				<li><a href="http://localhost:3030/api/emp/hours-worked">Time Records</a></li>
+				<li class="active"><a href="http://localhost:3030/api/emp/time-off-requests">Time Requests</a></li>
+				<li><a href="http://localhost:3030/api/emp/view-schedules">View Schedule</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="http://localhost:3030/api/emp/profile"><span class="glyphicon glyphicon-user"></span>
+						Profile</a></li>
+				<li><a href="http://localhost:3030/api/emp/logout"><span class="glyphicon glyphicon-log-out"></span>
+						Logout</a></li>
+			</ul>
+=======
+					<img src="/public/logo/logo2.png" alt="logo">
+				</a>
+			</div>
+			<div class="collapse navbar-collapse" id="navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li><a href="http://localhost:3030/api/emp/employee-panel">Dashboard</a></li>
+					<li><a href="http://localhost:3030/api/emp/clock">Clock</a></li>
+					<li><a href="http://localhost:3030/api/emp/hours-worked">Time Records</a></li>
+					<li class="active"><a href="http://localhost:3030/api/emp/time-off-requests">Time Requests</a></li>
+					<li><a href="http://localhost:3030/api/emp/view-schedules">View Schedule</a></li>
+		  </ul>
+		  <ul class="nav navbar-nav navbar-right">
+			<li><a href="http://localhost:3030/api/emp/profile"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+			<li><a href="http://localhost:3030/api/emp/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+		  </ul>
+>>>>>>> 7c87c7484c500dd9633b66a002153467bb2cea35
+		</div>
+	</nav>
+
+
+	<!-- Header -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<h1 class="text-center">Time-Off Requests</h1>
+			</div>
+		</div>
+
+		<!-- Create Request Form -->
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<form action="http://localhost:3030/api/emp/time-off-requests" method="POST">
+					<div class="form-group">
+						<label for="startDate">Start Date:</label>
+						<input type="date" class="form-control" id="startDate" name="startDate" required>
+					</div>
+					<div class="form-group">
+						<label for="endDate">End Date:</label>
+						<input type="date" class="form-control" id="endDate" name="endDate" required>
+					</div>
+					<div class="form-group">
+						<label for="reason">Reason:</label>
+						<input type="text" class="form-control" id="reason" name="reason" required>
+					</div>
+					<input type="hidden" id="employeeCode" name="employeeCode" value="<%= employee.employeeCode %>">
+					<button type="submit" class="btn btn-primary custom_btn">Create Request</button>
+				</form>
+			</div>
+		</div>
+
+		<hr>
+
+		<!-- List of Requests -->
+		<div class="my-div">
+			<div class="col-md-6 col-md-offset-3">
+<<<<<<< HEAD
+				<ul class="list-group">
+					<% requests.forEach((request)=> { %>
+						<li class="list-group-item">
+							<h4 class="list-group-item-heading">
+								<%= request.reason %>
+							</h4>
+							<p class="list-group-item-text">
+								From <%= request.startDate %> to <%= request.endDate %><br>
+										Status: <%= request.status %>
+							</p>
+							<form action="/api/emp/time-off-requests/<%= request._id %>" method="POST">
+								<input type="hidden" name="_method" value="DELETE">
+								<button type="submit" class="btn btn-danger">Delete</button>
+							</form>
+
+
+
+						</li>
+						<% }); %>
+				</ul>
+=======
+			  <ul class="list-group">
+				<% requests.forEach((request) => { %>
+				<li class="list-group-item">
+				  <h4 class="list-group-item-heading">
+					<%= request.reason %>
+				  </h4>
+				  <p class="list-group-item-text">
+					From <%= request.startDate %> to <%= request.endDate %><br><br>
+					Status: <%= request.status %>
+				  </p>
+				  <form action="/api/emp/time-off-requests/<%= request._id %>" method="POST">
+					<input type="hidden" name="_method" value="DELETE">
+					<br><br>
+					<button type="submit" class="btn btn-danger">Delete</button>
+				  </form>
+				</li>
+				<% }); %>
+			  </ul>
+>>>>>>> 7c87c7484c500dd9633b66a002153467bb2cea35
+			</div>
+		  </div>
+		  
+
+		<!-- Footer -->
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<a href="/" class="btn btn-default" >Back to Home</a>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+</html>

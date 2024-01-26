@@ -1,0 +1,110 @@
+
+/* Set the background color of the body element */
+body {
+    background-color: #f2f2f2;
+  }
+  
+  /* Style the navbar */
+  .navbar {
+    background-color: #333;
+    border: none;
+  }
+  
+  .navbar-brand {
+    color: #fff;
+  }
+  
+  .navbar-nav li a {
+    color: #fff;
+  }
+  
+  .navbar-nav li.active a {
+    background-color: #555;
+  }
+  
+  /* Style the container */
+  .container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-top: 50px;
+  }
+  
+  .container h1 {
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .container p {
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  
+  /* Style the form */
+  .form-horizontal .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-horizontal label {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .form-horizontal input[type="text"],
+  .form-horizontal input[type="password"] {
+    height: 50px;
+    font-size: 20px;
+  }
+  
+  .form-horizontal button[type="submit"] {
+    height: 50px;
+    font-size: 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .form-horizontal button[type="submit"]:hover {
+    background-color: #555;
+  }
+  
+  .row {
+    margin-bottom: 30px;
+  }
+  
+  .col-md-4 {
+    text-align: center;
+  }
+  
+  .col-md-4 p {
+    font-size: 20px;
+    margin-top: 10px;
+  }
+  .submit_btn {
+    text-align: center;
+  }
+      /* Define the table style */
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: center;
+      }
+      th {
+        background-color: #4CAF50;
+        color: white;
+      }
+
+      h1{
+        text-align: center;
+        
+      }
+  

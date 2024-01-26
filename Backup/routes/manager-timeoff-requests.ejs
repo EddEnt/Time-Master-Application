@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Time-Off Requests</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">
+          <img src="/public/logo/logo2.png" alt="logo" style="height: 50px; margin-top: -15px;">
+        </a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li><a href="http://localhost:3030/api/manager/manager-panel">Dashboard</a></li>
+        <li><a href="http://localhost:3030/api/manager/employee-management">Employee Management</a></li>
+        <li><a href="http://localhost:3030/api/manager/schedule-upload">Schedule</a></li>
+        <li><a href="http://localhost:3030/api/manager/time-records">Time Records</a></li>
+        <li class="active"><a href="http://localhost:3030/api/manager/time-off-requests">Time Requests</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="http://localhost:3030/api/manager/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <!-- Header -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <h1 class="text-center">Time-Off Requests</h1>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- List of Requests -->
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Employee</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Reason</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% requests.forEach((request, index)=> { %>
+              <tr>
+                <td>
+                  <%= employees[index].firstName %>
+                    <%= employees[index].lastName %>
+                </td>
+                <td>
+                  <%= request.startDate %>
+                </td>
+                <td>
+                  <%= request.endDate %>
+                </td>
+                <td>
+                  <%= request.reason %>
+                </td>
+                <td>
+                  <!-- Update form -->
+                  <form action="/api/manager/time-off-requests/<%= request._id %>" method="POST">
+                    <input type="hidden" name="_method" value="PUT">
+                    <div class="form-group">
+                      <select class="form-control" name="status">
+                        <option value="pending" <%=request.status==='pending' ? 'selected' : '' %>>Pending</option>
+                        <option value="approved" <%=request.status==='approved' ? 'selected' : '' %>>Approved</option>
+                        <option value="denied" <%=request.status==='denied' ? 'selected' : '' %>>Denied</option>
+                      </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                  </form>
+                </td>
+                <td>
+                  <form action="/api/manager/time-off-request/<%= request._id %>" method="POST">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+                  
+                  </form>
+                </td>
+              </tr>
+              <% }); %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <a href="/" class="btn btn-default">Back to Home</a>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

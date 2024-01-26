@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Time-Off Requests</title>
+	<link rel="icon" href="/logo/icon.png">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style>
+	body{
+		padding-bottom: 20px;
+	}
+
+	.navbar {
+    margin-bottom: 5;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+
+  .navbar-inverse .navbar-nav>li>a {
+    color: #fff;
+  }
+
+	
+	.navbar-inverse .navbar-nav>li>a:hover, 
+	.navbar-inverse .navbar-nav>li>a:focus {
+		color: red;
+	}
+
+	.container h1 {
+      margin-top: 70px;
+      margin-bottom: 50px;
+      text-align: center;
+      font-size: 36px;
+      color: #080808;
+    }
+
+	.heading h1 {
+		margin-top: 50px;
+		margin-bottom: 50px;
+		text-align: center;
+		font-size: 36px;
+		color: #080808;
+	}
+
+	.my-form {
+
+		margin-top: 50px;
+		margin-bottom: 25px;
+	}
+
+	.custom_btn {
+		margin-top: 20px;
+	}
+
+	.my-div {
+		margin-bottom: 70px;
+	}
+
+	.my-list-item {
+		margin-bottom: 20px;
+	}
+
+	.status {
+		font-weight: bold;
+		padding: 5px;
+		border-radius: 5px;
+	}
+
+	.list-group-item-text {
+		font-size: 16px;
+		line-height: 1.5;
+		margin-bottom: 20px;
+	}
+
+	.status {
+		display: inline-block;
+		width: 200px; 
+		padding: 5px;
+		text-align: center;
+		font-weight: bold;
+		border-radius: 5px;
+	}
+
+	.status.pending {
+		color: orange;
+		background-color: #ffe5cc;
+	}
+
+	.status.approved {
+		color: green;
+		background-color: #c8e6c9;
+	}
+
+	.status.rejected , .status.denied {
+		color: red;
+		background-color: #ffcdd2;
+	}
+	
+	footer {
+		position: fixed;
+		bottom: 0;
+		width: 100%;
+		height: 50px; /* Set the height of your footer */
+		background-color: #222; 
+		text-align: center;
+		color:#fff
+    }
+
+
+
+</style>
+</head>
+
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">
+					<img src="/logo/logo2.png" alt="logo" style="height: 50px; margin-top: -15px;">
+				</a>
+			</div>
+			<div class="collapse navbar-collapse" id="navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li><a href="https://time-master.herokuapp.com/api/emp/employee-panel">Dashboard</a></li>
+					<li><a href="https://time-master.herokuapp.com/api/emp/clock">Clock</a></li>
+					<li><a href="https://time-master.herokuapp.com/api/emp/hours-worked">Time Records</a></li>
+					<li class="active"><a href="https://time-master.herokuapp.com/api/emp/time-off-requests">Time
+							Requests</a></li>
+					<li><a href="https://time-master.herokuapp.com/api/emp/view-schedules">View Schedule</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="https://time-master.herokuapp.com/api/emp/profile"><span
+								class="glyphicon glyphicon-user"></span> Profile</a></li>
+					<li><a href="https://time-master.herokuapp.com/"><span class="glyphicon glyphicon-home"></span>Back
+							to Home</a>
+					</li>
+					<li><a href="https://time-master.herokuapp.com/api/emp/logout"><span
+								class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+				</ul>
+			</div>
+	</nav>
+
+
+	<!-- Header -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<h1 class="heading">Time-Off Request</h1>
+			</div>
+		</div>
+
+		<hr>
+
+		<% if (messages && messages.error) { %>
+			<div class="alert alert-danger" role="alert">
+				<%= messages.error %>
+			</div>
+			<% } %>
+				<% if (messages && messages.success) { %>
+					<div class="alert alert-success" role="alert">
+						<%= messages.success %>
+					</div>
+					<% } %>
+
+						<!-- Create Request Form -->
+						<div class="row">
+							<div class="col-md-6 col-md-offset-3">
+								<form class="my-form"
+									action="https://time-master.herokuapp.com/api/emp/time-off-requests" method="POST">
+									<div class="form-group">
+										<label for="startDate">Start Date:</label>
+										<input type="date" class="form-control" id="startDate" name="startDate"
+											required>
+									</div>
+									<div class="form-group">
+										<label for="endDate">End Date:</label>
+										<input type="date" class="form-control" id="endDate" name="endDate" required>
+									</div>
+									<div class="form-group">
+										<label for="reason">Reason:</label>
+										<input type="text" class="form-control" id="reason" name="reason" required>
+									</div>
+									<input type="hidden" id="employeeCode" name="employeeCode"
+										value="<%= employee.employeeCode %>">
+									<button type="submit" class="btn btn-primary custom_btn">Create Request</button>
+								</form>
+							</div>
+						</div>
+
+						<hr>
+
+						<!-- List of Requests -->
+						<!-- Help in expanding the column status -->
+
+						<div class="my-div">
+							<div class="col-md-6 col-md-offset-3">
+								<ul class="list-group">
+									<% requests.forEach((request)=> { %>
+										<li class="list-group-item my-list-item">
+											<h4 class="list-group-item-heading">
+												<%= request.reason %>
+											</h4>
+											<p class="list-group-item-text">
+												From <%= request.startDate.toDateString() %> to <%= request.endDate.toDateString() %><br><br>
+														Status: <span
+															class="status <%= request.status.toLowerCase() %>">
+															<%= request.status %>
+														</span>
+											</p>
+											<form action="/api/emp/time-off-requests/<%= request._id %>" method="POST">
+												<input type="hidden" name="_method" value="DELETE">
+												<br><br>
+												<button type="submit" class="btn btn-danger">Delete</button>
+											</form>
+										</li>
+										<% }); %>
+								</ul>
+							</div>
+						</div>
+	</div>
+
+	<%- include('footer') %>
+
+</body>
+
+</html>

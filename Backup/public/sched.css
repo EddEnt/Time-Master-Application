@@ -1,0 +1,26 @@
+
+  /* Add background color to body */
+body {
+  background-color: #f7f7f7;
+}
+
+/* Style the logo */
+.navbar-brand img {
+  height: 50px;
+}
+
+/* Style the navigation links */
+.navbar-nav > li > a {
+  color: #fff;
+}
+
+.navbar-nav > li.active > a,
+
+.navbar-nav > li > a:hover {
+  color: #fff;
+  background-color: #008cba;
+}
+
+.submit_btn {
+  text-align: center;
+}

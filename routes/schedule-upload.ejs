@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Upload Schedule</title>
+  <link rel="stylesheet" href="../public/sched.css">
+  <link rel="icon" href="/logo/icon.png">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<style>
+
+.navbar {
+    margin-bottom: 5;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+
+  .navbar-inverse .navbar-nav>li>a {
+    color: #fff;
+  }
+
+  .navbar-inverse .navbar-nav>li>a:hover,
+  .navbar-inverse .navbar-nav>li>a:focus {
+    color: red;
+  }
+
+  /* Style the upload form */
+  .form-group label {
+    font-weight: bold;
+  }
+
+  .form-control {
+    margin-bottom: 10px;
+  }
+
+  /* Style the header */
+  h1 {
+    font-size: 2em;
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: bold;
+  }
+
+  /* Style the footer button container */
+  .footer-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* Page content */
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 2em;
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: bold;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    box-shadow: 1px 1px 2px #ccc;
+    border: none;
+  }
+
+  /* Form */
+  .form-group label {
+    font-weight: bold;
+  }
+
+  .form-control {
+    margin-bottom: 20px;
+  }
+
+  .form-control:focus {
+    border-color: #080808;
+    box-shadow: none;
+  }
+
+  /* Add some spacing and center the table */
+  .table {
+    margin: 80px auto;
+    width: 100%;
+  }
+
+  /* Add some styling to the table header */
+  .table thead {
+    background-color: #333;
+    color: white;
+  }
+
+  /* Add some styling to the table rows */
+  .table tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+  }
+
+  /* Add some hover effect on table rows */
+  .table tbody tr:hover {
+    background-color: #ddd;
+  }
+
+  footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 50px; /* Set the height of your footer */
+    background-color: #222; 
+    text-align: center;
+    color:#fff
+    }
+</style>
+
+<body>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">
+          <img src="/logo/logo2.png" alt="logo" style="height: 50px; margin-top: -15px;">
+        </a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li><a href="https://time-master.herokuapp.com/api/manager/manager-panel">Dashboard</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/manager/employee-management">Employee Management</a></li>
+        <li class="active"><a href="https://time-master.herokuapp.com/api/manager/schedule-upload">Schedule</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/manager/time-records">Time Records</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/manager/time-off-requests">Time Requests</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/manager/announcement">Announcement Management</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="https://time-master.herokuapp.com/"><span class="glyphicon glyphicon-home"></span>Back to Home</a>
+        </li>
+        <li><a href="https://time-master.herokuapp.com/api/manager/logout"><span
+              class="glyphicon glyphicon-log-out"></span>
+            Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-4">
+        <h2 class="text-center, heading">Upload Schedule</h2>
+      </div>
+    </div>
+    <% if (messages['msg-success']) { %>
+      <div class="alert alert-success">
+        <%= messages['msg-success'] %>
+      </div>
+      <% } %>
+
+        <% if (messages['msg-error']) { %>
+          <div class="alert alert-danger">
+            <%= messages['msg-error'] %>
+          </div>
+          <% } %>
+
+            <hr>
+
+            <!-- Upload Form -->
+            <div class="row">
+              <div class="col-md-8 col-md-offset-2">
+                <form action="/api/manager/schedule-upload/" method="post" enctype="multipart/form-data">
+                  <div class="form-group">
+                    <label for="file">Select CSV File:</label>
+                    <input type="file" name="file" id="file" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label for="name">Schedule Name:</label>
+                    <input type="text" name="name" id="name" class="form-control" required>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Upload</button>
+                </form>
+
+              </div>
+            </div>
+
+
+            <hr>
+
+            <div class="row">
+              <div class="col-md-8 col-md-offset-2">
+                <table class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>Title</th>
+                      <th>Date Uploaded</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% schedules.forEach(function(schedule) { %>
+                      <tr>
+                        <td>
+                          <%= schedule.name %>
+                        </td>
+                        <td>
+                          <%= schedule.uploadedAt %>
+                        </td>
+                        <td>
+                          <form action="/api/manager/delete-schedule/<%= schedule._id %>/" method="POST">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                          </form>
+                        </td>
+                      </tr>
+                      <% }); %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+
+            <!--   <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <div class="footer-buttons">
+        <a href="/" class="btn btn-default">Back to Home</a>
+      </div>
+    </div>
+  </div> -->
+  </div>
+  <%- include('footer') %>
+</body>
+
+</html>

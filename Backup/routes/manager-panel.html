@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Manager Panel</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../public/style.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<style>
+  .navbar-inverse .navbar-nav > li > a:hover,
+		.navbar-inverse .navbar-nav > li > a:focus {
+			color: #ff0f4a;
+		}
+
+    footer {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+h1{
+  font-size: 1.8em;
+  margin-right: 50px;
+  text-align: right;
+}
+
+#welcome-message {
+      font-size: 1.5em;
+      margin-right: 50px;
+      text-align: right;
+    }
+</style>
+<body class="text-center">
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">
+          <img src="/public/logo/logo2.png" alt="logo" style="height: 50px; margin-top: -15px;">
+        </a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="http://localhost:3030/api/manager/manager-panel">Dashboard</a></li>
+        <li><a href="http://localhost:3030/api/manager/employee-management">Employee Management</a></li>
+        <li><a href="http://localhost:3030/api/manager/schedule-upload">Schedule</a></li>
+        <li><a href="http://localhost:3030/api/manager/time-records">Time Records</a></li>
+        <li><a href="http://localhost:3030/api/manager/time-off-requests">Time Requests</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="http://localhost:3030/api/manager/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container-fluid d-flex align-items-center justify-content-center">
+    <div class="row content">
+      <div class="col-sm-8 text-center">
+        <h1>Welcome to the Manager Panel</h1>
+        <p id="welcome-message"></p>
+        <hr>
+      </div>
+    </div>
+  </div>
+
+  <footer class="container-fluid text-center">
+    <p>Time Master</p>
+  </footer>
+
+  <script>
+    function updateWelcomeMessage() {
+      // Get the current date and time
+      const now = new Date();
+      const date = now.toDateString();
+      const time = now.toLocaleTimeString();
+
+      // Update the welcome message with the current date and time
+      const message = `Today is ${date}, and the time is ${time}.`;
+      document.getElementById("welcome-message").textContent = message;
+    }
+
+    // Call the updateWelcomeMessage function every second
+    setInterval(updateWelcomeMessage, 1000);
+  </script>
+
+</body>
+
+</html>

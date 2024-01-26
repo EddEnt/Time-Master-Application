@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Manager Panel</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/logo/icon.png">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<style>
+  footer {
+    background-color: #222;
+    color: white;
+    padding: 10px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+  }
+
+  #page-info {
+    padding-bottom: 20px;
+  }
+
+  #info-boxes {
+    border-right: 2px #a5a5a5 solid;
+    height: 200px;
+    text-align: center;
+    justify-content: center;
+  }
+
+  #info-buttons {
+    padding-top: 16px;
+    align-items: center;
+  }
+
+  .btn-primary{
+    background-color: #007bff;
+    box-shadow: 1px 1px 2px #ccc;
+    border: none;
+  }
+
+  .navbar-inverse .navbar-nav>li>a:hover,
+  .navbar-inverse .navbar-nav>li>a:focus {
+    color: red;
+  }
+
+  .navbar {
+    margin-bottom: 5;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+
+  .navbar-inverse .navbar-nav>li>a {
+    color: #fff;
+  }
+
+  @media screen and (max-width: 1000px) {
+
+    #info-boxes {
+      display: flex;
+      flex-wrap: wrap;
+      text-align: center;
+      border-right: none;
+      border-bottom: 2px #a5a5a5 solid;
+    }
+  }
+</style>
+
+<body class="text-center">
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">
+          <img src="/logo/logo2.png" alt="logo" style="height: 50px; margin-top: -15px;">
+        </a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="https://time-master.herokuapp.com/api/manager/manager-panel">Dashboard</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/manager/employee-management">Employee Management</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/manager/schedule-upload">Schedule</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/manager/time-records">Time Records</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/manager/time-off-requests">Time Requests</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/manager/announcement">Announcement Management</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="https://time-master.herokuapp.com/"><span class="glyphicon glyphicon-home"></span>Back to Home</a>
+        </li>
+        <li><a href="https://time-master.herokuapp.com/api/manager/logout"><span
+              class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div style="background:transparent" class="jumbotron">
+    <div class="container-jumbo">
+      <h1 class="display-3">Welcome to Manager Panel</h1>
+    </div>
+  </div>
+
+  <div class="container text-center" id="info-grid">
+    <div class="row" id="page-info">
+      <div class="col-xs-12 col-md-3" id="info-boxes">
+        <h2>Employee Management</h2>
+        <p>From here, you will be able to manage all employees. From adding a new member to your team, to updating their
+          information as they advance in your organization.</p>
+      </div>
+      <div class="col-xs-12 col-md-2" id="info-boxes">
+        <h2>Schedule</h2>
+        <p>Manage your teams schedule. Upload, and view the date and upload time. </p>
+      </div>
+      <div class="col-xs-12 col-md-2" id="info-boxes">
+        <h2>Time Records</h2>
+        <p>View all clock in and clock outs of employees. See the name of the employee, along with the exact time. </p>
+      </div>
+      <div class="col-xs-12 col-md-2" id="info-boxes">
+        <h2>Time Requests</h2>
+        <p>Manage employee time off requests. View who made the request, range of time off, and reason. </p>
+      </div>
+      <div class="col-xs-12 col-md-3">
+        <h2>Announcements</h2>
+        <p>Manage Announcements to your colleagues from here. Create, update and delete news for your organization to be
+          aware of, and share important developments. </p>
+      </div>
+    </div>
+
+    <div class="row" id="info-buttons">
+      <div class="col-xs-12 col-md-3" id="info-buttons">
+        <a href="https://time-master.herokuapp.com/api/manager/employee-management" class="btn btn-primary"
+          role="button">Employee Managment</a>
+      </div>
+      <div class="col-xs-12 col-md-2" id="info-buttons">
+        <a href="https://time-master.herokuapp.com/api/manager/schedule-upload" class="btn btn-primary"
+          role="button">Schedule</a>
+      </div>
+      <div class="col-xs-12 col-md-2" id="info-buttons">
+        <a href="https://time-master.herokuapp.com/api/manager/time-records" class="btn btn-primary" role="button">Time
+          Records</a>
+      </div>
+      <div class="col-xs-12 col-md-2" id="info-buttons">
+        <a href="https://time-master.herokuapp.com/api/manager/time-off-requests" class="btn btn-primary"
+          role="button">Time Requests</a>
+      </div>
+      <div class="col-xs-12 col-md-3" id="info-buttons">
+        <a href="https://time-master.herokuapp.com/api/manager/announcement" class="btn btn-primary"
+          role="button">Announcements</a>
+      </div>
+    </div>
+
+    <hr>
+
+    <p id="welcome-message"></p>
+
+  </div>
+
+  <footer>
+    <p>&copy; Time Master Application. All rights reserved.</p>
+  </footer>
+  <script>
+    function updateWelcomeMessage() {
+      // Get the current date and time
+      const now = new Date();
+      const date = now.toDateString();
+      const time = now.toLocaleTimeString();
+
+      // Update the welcome message with the current date and time
+      const message = `Today is ${date}, and the time is ${time}.`;
+      document.getElementById("welcome-message").textContent = message;
+    }
+
+    // Call the updateWelcomeMessage function every second
+    setInterval(updateWelcomeMessage, 1000);
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Employee Panel</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/logo/icon.png">
+  <link rel="stylesheet" href="../public/style.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<style>
+
+  #info-boxes {
+    border-right: 2px #a5a5a5 solid;
+    height: 200px;
+  }
+
+  #info-buttons {
+    padding-top: 13px;
+  }
+
+  .navbar {
+    margin-bottom: 5;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+
+  .navbar-inverse .navbar-nav>li>a {
+    color: #fff;
+  }
+
+
+  .navbar-inverse .navbar-nav>li>a:hover,
+  .navbar-inverse .navbar-nav>li>a:focus {
+    color: red;
+  }
+
+  .btn-primary{
+    background-color: #007bff;
+    box-shadow: 1px 1px 2px #ccc;
+    border: none;
+  }
+
+  footer {
+    background-color: #222;
+    color: white;
+    padding: 10px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+  }
+</style>
+
+<body class="text-center">
+
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">
+          <img src="/logo/logo2.png" alt="logo" style="height: 50px; margin-top: -15px;">
+        </a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="https://time-master.herokuapp.com/api/emp/employee-panel">Dashboard</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/emp/clock">Clock</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/emp/hours-worked">Time Records</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/emp/time-off-requests">Time Requests</a></li>
+        <li><a href="https://time-master.herokuapp.com/api/emp/view-schedules">View Schedule</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="https://time-master.herokuapp.com/api/emp/profile"><span class="glyphicon glyphicon-user"></span>
+            Profile</a></li>
+        <li><a href="https://time-master.herokuapp.com/"><span class="glyphicon glyphicon-home"></span>Back to Home</a>
+        </li>
+        <li><a href="https://time-master.herokuapp.com/api/emp/logout"><span class="glyphicon glyphicon-log-out"></span>
+            Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div style="background:transparent" class="jumbotron">
+    <div class="container-jumbo">
+      <h1 class="display-3">Welcome to your Employee Panel</h1>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3" id="info-boxes">
+        <h2>Clock</h2>
+        <p>Here you can clock in and out to start or finish your day. It will require your employee code, so make sure
+          you remember it.</p>
+      </div>
+      <div class="col-md-3" id="info-boxes">
+        <h2>Time Record</h2>
+        <p>View your past work activity. See when you have clocked in and out for the day. You will also see your
+          expected pay in real time. </p>
+      </div>
+      <div class="col-md-3" id="info-boxes">
+        <h2>Time Request</h2>
+        <p>Request time off from here. Input both the start and end date, plus the reason for your request. You can view
+          the status of your request, plus prior requests that you have submited. </p>
+      </div>
+      <div class="col-md-3">
+        <h2>Schedule</h2>
+        <p>Download your current schedule for the week. Managers will upload the schedule on their end, and allow you to
+          view it at your convenience. </p>
+      </div>
+    </div>
+    <div class=row id="info-buttons">
+      <div class="col-md-3">
+        <a href="https://time-master.herokuapp.com/api/emp/clock" class="btn btn-primary" role="button">Clock</a>
+      </div>
+      <div class="col-md-3">
+        <a href="https://time-master.herokuapp.com/api/emp/hours-worked" class="btn btn-primary" role="button">Time
+          Records</a>
+      </div>
+      <div class="col-md-3">
+        <a href="https://time-master.herokuapp.com/api/emp/time-off-requests" class="btn btn-primary" role="button">Time
+          Requests</a>
+      </div>
+      <div class="col-md-3">
+        <a href="https://time-master.herokuapp.com/api/emp/view-schedules" class="btn btn-primary" role="button">View
+          Schedule</a>
+      </div>
+    </div>
+
+    <hr>
+
+    <p id="welcome-message"></p>
+
+  </div>
+
+
+
+  <script>
+    function updateWelcomeMessage() {
+      // Get the current date and time
+      const now = new Date();
+      const date = now.toDateString();
+      const time = now.toLocaleTimeString();
+
+      // Update the welcome message with the current date and time
+      const message = `Today is ${date}, and the time is ${time}.`;
+      document.getElementById("welcome-message").textContent = message;
+    }
+
+    // Call the updateWelcomeMessage function every second
+    setInterval(updateWelcomeMessage, 1000);
+  </script>
+
+  <footer>
+    <p>&copy; Time Master Application. All rights reserved.</p>
+  </footer>
+</body>
+
+
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Time Records</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </head>
+  <style>
+   table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      
+      th, td {
+        text-align: left;
+        padding: 8px;
+        border: 1px solid #ddd;
+      }
+      
+      th {
+        background-color: #4CAF50;
+        color: white;
+      }
+      
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+      
+      .table-secondary {
+        background-color: #f2f2f2;
+        color: black;
+      }
+      
+      .font-weight-bold {
+        font-weight: bold;
+      }
+
+      .heading{
+        font-size: 45px;
+        text-align: center;
+        text-decoration: wavy;
+      }
+      .col-auto{
+        padding: 10px; 
+        border-radius: 5px;
+        font-size: 20px; 
+        margin: 0;
+      }
+      .navbar-nav > li > a {
+        color: #000; /* default color */
+      }
+
+      .navbar-inverse .navbar-nav>li>a:hover, 
+	    .navbar-inverse .navbar-nav>li>a:focus {
+  		  color: red;
+      }
+
+    
+      
+  </style>
+  <body>
+      <nav class="navbar navbar-inverse">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <a class="navbar-brand" href="#">
+                <img src="/public/logo/logo2.png" alt="logo" style="height: 50px; margin-top: -15px;">
+              </a>
+            </div>
+            <ul class="nav navbar-nav">
+              <li><a href="http://localhost:3030/api/emp/employee-panel">Dashboard</a></li>
+              <li><a href="http://localhost:3030/api/emp/clock">Clock</a></li>
+              <li class="active"><a href="http://localhost:3030/api/emp/hours-worked">Time Records</a></li>
+              <li><a href="http://localhost:3030/api/emp/time-off-requests">Time Requests</a></li>
+              <li><a href="http://localhost:3030/api/emp/view-schedules">View Schedule</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="http://localhost:3030/api/emp/profile"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+              <li><a href="http://localhost:3030/api/emp/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+            </ul>
+          </div>
+        </nav>
+      
+    <div class="container">
+      <div class="row justify-content-between">
+        <h1 class="heading">Time Records</h1>
+        <div class="col-auto">
+          <p>Hello, <%= employee.firstName %>!</p>
+        </div>
+      </div>
+      <hr>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Clock In</th>
+            <th>Clock Out</th>
+            <th>Hours Worked</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (const date in dailyHours) { %>
+          <tr>
+            <td><%= date %></td>
+            <td><%= dailyHours[date].clockIn || 'N/A' %></td>
+            <td><%= dailyHours[date].clockOut || 'N/A' %></td>
+            <td><%= dailyHours[date].hoursWorked ? dailyHours[date].hoursWorked.toFixed(2) + ' hours' : 'N/A' %></td>
+          </tr>
+          <% } %>
+          <tr class="table-secondary font-weight-bold">
+            <td>Total</td>
+            <td></td>
+            <td></td>
+            <td><%= totalHoursWorked.toFixed(2) + ' hours' %></td>
+          </tr>
+          <tr class="table-secondary font-weight-bold">
+            <td colspan="3">Total Pay</td>
+            <td>$<%= totalPay.toFixed(2) %> CAD</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
